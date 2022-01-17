@@ -1,4 +1,5 @@
 <template>
+
   <div class="card">
       <div class="thumb">
           <img :src="image" alt="">
@@ -9,6 +10,7 @@
           <h4>{{ year }}</h4>
       </div>
   </div>
+
 </template>
 
 <script>
@@ -43,9 +45,11 @@ export default {
         flex-direction: column;
         align-items: center;
         width: calc(100% / 5 - 3rem);
-        // height: calc(100% / 2 - 1rem);
-        height: 350px;
-        padding-top: 2rem;
+        // height: calc(100% / 3);
+        aspect-ratio: 1 / 1;
+        // height: 300px;
+        padding-top: 1.2rem;
+        border-radius: 10px;
         background-color: $light-blue;
 
         .thumb {

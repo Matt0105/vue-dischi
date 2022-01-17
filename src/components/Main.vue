@@ -60,8 +60,7 @@ export default {
 
   main {
     width: 100%;
-    height: calc(100vh - 60px);
-    background-color: $dark-blue;
+    // height: calc(100vh - 60px);
   }
 
   .container {
