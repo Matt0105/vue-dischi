@@ -45,9 +45,6 @@ export default {
         flex-direction: column;
         align-items: center;
         width: calc(100% / 5 - 3rem);
-        // height: calc(100% / 3);
-        aspect-ratio: 1 / 1;
-        // height: 300px;
         padding-top: 1.2rem;
         border-radius: 10px;
         background-color: $light-blue;
