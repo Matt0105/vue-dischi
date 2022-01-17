@@ -1,16 +1,57 @@
 <template>
   <main>
-    <div class="container">
-      <CardElement />
+    <div v-if="musicData" class="container">
+      <CardElement 
+        v-for="(element, index) in musicData"
+        :key=index
+        :image=element.poster
+        :title=element.title
+        :author=element.author
+        :year=element.year
+      />
+    </div>
+    <div v-else>
+      LOADING
     </div>
   </main>
 </template>
 
 <script>
-import CardElement from './CardElement.vue'
+
+import axios from 'axios';
+import CardElement from './CardElement.vue';
+
 export default {
-  components: { CardElement },
-    name: "Main",
+  components: { 
+    CardElement 
+  },
+  name: "Main",
+  data() {
+    return {
+      apiQuery: "https://flynn.boolean.careers/exercises/api/array/music",
+      musicData: null,
+    }
+  },
+  mounted() {
+
+    this.getData();
+
+  },
+  methods: {
+
+    getData() {
+
+      axios.get(this.apiQuery)
+      .then((response) => {
+        this.musicData = response.data.response;
+        console.log(this.musicData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+
+  }
 }
 </script>
 
@@ -24,10 +65,13 @@ export default {
   }
 
   .container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem 3rem;
     width: 80%;
     height: 100%;
     margin: 0 auto;
-    padding-top: 3rem;
+    padding: 2rem 0;
   }
 
 </style>

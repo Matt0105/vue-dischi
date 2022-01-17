@@ -1,12 +1,12 @@
 <template>
   <div class="card">
       <div class="thumb">
-          <img src="https://picsum.photos/200" alt="">
+          <img :src="image" alt="">
       </div>
       <div class="card-info">
-          <h2>Title</h2>
-          <h3>Artist</h3>
-          <h4>Year</h4>
+          <h2>{{ title }}</h2>
+          <h3>{{ author }}</h3>
+          <h4>{{ year }}</h4>
       </div>
   </div>
 </template>
@@ -14,6 +14,24 @@
 <script>
 export default {
     name: "CardElement",
+    props: {
+        image: {
+            type: String,
+            default: null
+        },
+        title: {
+            type: String,
+            required: true,
+        },
+        author: {
+            type: String,
+            required: true,
+        },
+        year: {
+            type: String,
+            default: null
+        }
+    }
 }
 </script>
 
@@ -24,8 +42,9 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: calc(100% / 5);
-        height: calc(100% / 2);
+        width: calc(100% / 5 - 3rem);
+        // height: calc(100% / 2 - 1rem);
+        height: 350px;
         padding-top: 2rem;
         background-color: $light-blue;
 
@@ -40,13 +59,14 @@ export default {
 
         .card-info {
             color: white;
-            margin-top: 1rem;
+            margin: 0.8rem;
+            padding-bottom: 1rem;
             text-align: center;
 
             h2 {
                 text-transform: uppercase;
-                font-size: 2rem;
-                margin-bottom: 1.5rem;
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
             }
 
             h3, h4 {
@@ -55,11 +75,11 @@ export default {
             }
 
             h3 {
-                font-size: 1.5rem;
+                font-size: 1rem;
             }
 
             h4 {
-                font-size: 1.2rem;
+                font-size: 0.9rem;
             }
         }
     }
