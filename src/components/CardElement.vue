@@ -3,6 +3,7 @@
   <div class="card">
       <div class="thumb">
           <img :src="image" alt="">
+          <i class="fas fa-play play-btn"></i>
       </div>
       <div class="card-info">
           <h2>{{ title }}</h2>
@@ -50,11 +51,35 @@ export default {
         background-color: $light-blue;
 
         .thumb {
+            position: relative;
             width: 100%;
             text-align: center;
+            cursor: pointer;
 
+
+            &:hover img {
+                filter: brightness(50%);
+                transform: scale(1.1);
+            }
             img {
                 width: 70%;
+
+                transition: all .3s;
+            }
+
+            &:hover .play-btn {
+                display: block;
+            }
+            .play-btn {
+                display: none;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 2rem;
+                color: white;
+
+                
             }
         }
 
