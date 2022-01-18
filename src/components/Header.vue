@@ -7,50 +7,24 @@
             <button>Search</button>
           </div> 
 
-          <div class="select-filter">
-              <select name="genre" id="genre">
-                  <option v-for="(genre, index) in genreList" 
-                  :key=index
-                  :value="genre">{{genre}}</option>
-              </select>
-          </div> 
+          
       </nav>
   </header>
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
     name: "Header",
     data() {
         return {
-            apiQuery: "https://flynn.boolean.careers/exercises/api/array/music",
-            myData: null,
-            genreList: []
         }
     },
     mounted() {
-        this.getGenre();
     },
 
     methods: {
-        getGenre() {
-            axios.get(this.apiQuery)
-                .then((response) => {
-                    this.myData = response.data.response;
-
-                    this.myData.forEach(element => {
-                        if(!this.genreList.includes(element.genre)) {
-                            this.genreList.push(element.genre);
-                        }
-                    });
-
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        }
+       
     }
 }
 </script>

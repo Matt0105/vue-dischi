@@ -2,7 +2,7 @@
   <main>
     <div v-if="musicData" class="container">
       <CardElement 
-        v-for="(element, index) in musicData"
+        v-for="(element, index) in myData"
         :key=index
         :image=element.poster
         :title=element.title
@@ -13,6 +13,19 @@
     <div v-else>
       LOADING
     </div>
+
+    <div class="select-filter">
+        <select @change="selectGenre()" v-model="genre" name="genre" id="genre">
+
+          <option value="all">All</option>
+
+          <option 
+            v-for="(genre, index) in genreList" 
+            :key=index
+            :value="genre">{{genre}}
+          </option>
+        </select>
+    </div> 
   </main>
 </template>
 
@@ -30,6 +43,10 @@ export default {
     return {
       apiQuery: "https://flynn.boolean.careers/exercises/api/array/music",
       musicData: null,
+      myData: null,
+      genre: "all",
+      genreList: []
+
     }
   },
   mounted() {
@@ -44,11 +61,39 @@ export default {
       axios.get(this.apiQuery)
       .then((response) => {
         this.musicData = response.data.response;
-        // console.log(this.musicData);
+        this.myData = this.musicData;
+        this.getGenre();
       })
       .catch((err) => {
         console.log(err);
       });
+    },
+
+    getGenre() {
+    
+      this.musicData.forEach(element => {
+          if(!this.genreList.includes(element.genre)) {
+              this.genreList.push(element.genre);
+          }
+      });
+
+    },
+
+    selectGenre() {
+
+      if(this.genre == "all") {
+        this.myData = this.musicData;
+      }
+      else {
+
+        this.myData = this.musicData.filter((el) => {
+          return el.genre === this.genre;
+        });
+      }
+
+      
+
+      console.log(this.myData);
     }
 
   }
