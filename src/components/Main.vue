@@ -18,8 +18,8 @@
 
 <script>
 
-import axios from 'axios';
 import CardElement from './CardElement.vue';
+import axios from 'axios';
 
 export default {
   components: { 
@@ -44,7 +44,7 @@ export default {
       axios.get(this.apiQuery)
       .then((response) => {
         this.musicData = response.data.response;
-        console.log(this.musicData);
+        // console.log(this.musicData);
       })
       .catch((err) => {
         console.log(err);
