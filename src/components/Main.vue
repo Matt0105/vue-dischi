@@ -10,46 +10,43 @@
         :year=element.year
       />
     </div>
-    <div v-else>
-      LOADING
+    <div class="loading" v-else>
+      <span><i class="fas fa-spinner loading-spinner"></i></span>
     </div>
 
-    <div class="select-filter">
-      <select @change="selectGenre()" v-model="genre" name="genre" id="genre">
+    <div v-if="myData" class="select-container">
 
-        <option value="all">All</option>
+      <div class="genre-select">
+        <h3>Genre:</h3>
+        <SelectElement
+          :myList="genreList"
+          @choice="selectGenre($event), genre = $event"
+        />
+      </div>
 
-        <option 
-          v-for="(genre, index) in genreList" 
-          :key=index
-          :value="genre">{{genre}}
-        </option>
-      </select>
-    </div> 
+      <div class="artist-select">
+        <h3>Artist:</h3>
+        <SelectElement
+          :myList="artistList"
+          @choice="selectArtist($event), artist = $event"
+        />
+      </div>
+    </div>
+    
 
-    <div class="select-filter">
-      <select @change="selectArtist()" v-model="artist" name="artist" id="artist">
-
-        <option value="all">All</option>
-
-        <option 
-          v-for="(artist, index) in artistList" 
-          :key=index
-          :value="artist">{{artist}}
-        </option>
-      </select>
-    </div> 
   </main>
 </template>
 
 <script>
 
 import CardElement from './CardElement.vue';
+import SelectElement from './SelectElement.vue';
 import axios from 'axios';
 
 export default {
   components: { 
-    CardElement 
+    CardElement,
+    SelectElement
   },
   name: "Main",
   data() {
@@ -66,8 +63,10 @@ export default {
   },
   mounted() {
 
-    this.getData();
-
+    setTimeout(() => {
+      this.getData();
+    }, 2000);
+    
   },
   methods: {
 
@@ -80,7 +79,6 @@ export default {
         this.getGenre();
         this.getArtist();
 
-        // console.log(this.musicData);
       })
       .catch((err) => {
         console.log(err);
@@ -90,9 +88,9 @@ export default {
     getGenre() {
     
       this.musicData.forEach(element => {
-          if(!this.genreList.includes(element.genre)) {
-              this.genreList.push(element.genre);
-          }
+        if(!this.genreList.includes(element.genre)) {
+            this.genreList.push(element.genre);
+        }
       });
 
     },
@@ -100,40 +98,36 @@ export default {
     getArtist() {
 
       this.musicData.forEach(element => {
-          if(!this.artistList.includes(element.author)) {
-              this.artistList.push(element.author);
-          }
+        if(!this.artistList.includes(element.author)) {
+            this.artistList.push(element.author);
+        }
       });
-
-      // console.log(this.artistList);
 
     },
 
-    selectGenre() {
+    selectGenre(selection) {
 
-      if(this.genre == "all") {
+      if(selection == "all") {
         this.myData = this.musicData;
       }
       else {
         this.artist = "all";
         this.myData = this.musicData.filter((el) => {
-          return el.genre === this.genre;
+          return el.genre === selection;
         });
       }
 
-      // console.log(this.myData);
     },
 
-    selectArtist() {
+    selectArtist(selection) {
 
-      console.log(this.artist);
-      if(this.artist == "all") {
+      if(selection == "all") {
         this.myData = this.musicData;
       }
       else {
         this.genre = "all";
         this.myData = this.musicData.filter((el) => {
-          return el.author === this.artist;
+          return el.author === selection;
         });
       }
     }
@@ -147,7 +141,6 @@ export default {
 
   main {
     width: 100%;
-    // height: calc(100vh - 60px);
   }
 
   .container {
@@ -158,6 +151,51 @@ export default {
     height: 100%;
     margin: 0 auto;
     padding: 2rem 0;
+  }
+
+  .loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    span {
+      color: white;
+      text-transform: uppercase;
+      font-size: 2rem;
+      font-weight: 600;
+
+      .loading-spinner {
+        animation: spin-animation 2s infinite;
+      }
+    }
+  }
+
+  .select-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+
+      .genre-select, .artist-select {
+        display: inline-block;
+
+        h3 {
+          color: white;
+          text-transform: uppercase;
+          font-size: 0.8rem;
+        }
+      }
+  }
+
+
+  @keyframes spin-animation {
+    0% {
+    transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(359deg);
+    }
   }
 
 </style>
