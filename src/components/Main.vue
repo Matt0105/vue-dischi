@@ -15,16 +15,29 @@
     </div>
 
     <div class="select-filter">
-        <select @change="selectGenre()" v-model="genre" name="genre" id="genre">
+      <select @change="selectGenre()" v-model="genre" name="genre" id="genre">
 
-          <option value="all">All</option>
+        <option value="all">All</option>
 
-          <option 
-            v-for="(genre, index) in genreList" 
-            :key=index
-            :value="genre">{{genre}}
-          </option>
-        </select>
+        <option 
+          v-for="(genre, index) in genreList" 
+          :key=index
+          :value="genre">{{genre}}
+        </option>
+      </select>
+    </div> 
+
+    <div class="select-filter">
+      <select @change="selectArtist()" v-model="artist" name="artist" id="artist">
+
+        <option value="all">All</option>
+
+        <option 
+          v-for="(artist, index) in artistList" 
+          :key=index
+          :value="artist">{{artist}}
+        </option>
+      </select>
     </div> 
   </main>
 </template>
@@ -45,7 +58,9 @@ export default {
       musicData: null,
       myData: null,
       genre: "all",
-      genreList: []
+      artist: "all",
+      genreList: [],
+      artistList: [],
 
     }
   },
@@ -63,6 +78,9 @@ export default {
         this.musicData = response.data.response;
         this.myData = this.musicData;
         this.getGenre();
+        this.getArtist();
+
+        // console.log(this.musicData);
       })
       .catch((err) => {
         console.log(err);
@@ -78,6 +96,18 @@ export default {
       });
 
     },
+    
+    getArtist() {
+
+      this.musicData.forEach(element => {
+          if(!this.artistList.includes(element.author)) {
+              this.artistList.push(element.author);
+          }
+      });
+
+      // console.log(this.artistList);
+
+    },
 
     selectGenre() {
 
@@ -85,15 +115,27 @@ export default {
         this.myData = this.musicData;
       }
       else {
-
+        this.artist = "all";
         this.myData = this.musicData.filter((el) => {
           return el.genre === this.genre;
         });
       }
 
-      
+      // console.log(this.myData);
+    },
 
-      console.log(this.myData);
+    selectArtist() {
+
+      console.log(this.artist);
+      if(this.artist == "all") {
+        this.myData = this.musicData;
+      }
+      else {
+        this.genre = "all";
+        this.myData = this.musicData.filter((el) => {
+          return el.author === this.artist;
+        });
+      }
     }
 
   }
